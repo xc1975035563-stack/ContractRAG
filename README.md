@@ -1,10 +1,10 @@
 # 合同速查
 
-员工按岗位查阅合同。电商合规专员只能查青禾市集和南湖优选，小区事务专员只能查示范小区，管理员可以看全部知识库、整理报告和审计。
+自研的内部合同查阅系统。员工按岗位查阅合同。电商合规专员只能查青禾市集和南湖优选，小区事务专员只能查示范小区，管理员可以看全部知识库、整理报告和审计。
 
 检索链路没有改：Markdown 标题切父块写入 PostgreSQL，子块写入 Milvus，按 `kb_id` 过滤后用 `parent_id` 回取父块。回答里的 `[1]`、`[2]` 必须来自本次材料，页面只列出实际用到的出处。
 
-演示账号写在 `data/accounts.json`，只用于本地演示：
+本地账号写在 `data/accounts.json`：
 
 | 账号 | 密码 | 能看的知识库 |
 | --- | --- | --- |
@@ -21,7 +21,7 @@
 python scripts/prepare_documents.py
 ```
 
-买卖、租赁、物业三份示范文本写入 `data/documents/estate/`，和电商知识库并列，知识库编号是 `estate`。缺页、空章节、重复条款和无法解析的样例文件记在 `data/reports/estate_prepare.json`。无法解析的必需文件会让命令失败，并打印原因。
+买卖、租赁、物业三份小区合同写入 `data/documents/estate/`，和电商知识库并列，知识库编号是 `estate`。缺页、空章节、重复条款和无法解析的文件记在 `data/reports/estate_prepare.json`。无法解析的必需文件会让命令失败，并打印原因。
 
 3. 入库（需要 PostgreSQL 和 Milvus 已经可连接）：
 
@@ -46,7 +46,7 @@ docker tag contractrag-app:current contractrag-app:previous
 docker compose up -d
 ```
 
-前端仍然在本机用 `npm run dev`。Compose 里的数据库密码只用于这套演示容器。
+前端仍然在本机用 `npm run dev`。Compose 里的数据库密码只用于这套本地容器。
 
 入库脚本连上数据库后，会给 `system` 记一条入库审计。查询、切换知识库、查看完整章节由页面触发，记谁、何时、哪个 `kb_id`、做了什么、成功还是失败。
 
@@ -79,7 +79,7 @@ docker compose build app
 docker compose up -d
 ```
 
-这只回退应用和编排文件，不删除 PostgreSQL 和 Milvus 的数据卷。要连数据一起回到空库，再执行 `docker compose down -v`。那会清掉已入库的合同和审计，演示前先确认。
+这只回退应用和编排文件，不删除 PostgreSQL 和 Milvus 的数据卷。要连数据一起回到空库，再执行 `docker compose down -v`。那会清掉已入库的合同和审计，执行前先确认。
 
 ## 业务规则
 

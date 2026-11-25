@@ -229,7 +229,7 @@ export function App() {
           </label>
           {error && <p className="error">{error}</p>}
           <button type="submit">登录</button>
-          <p className="hint">电商专员 merchant，小区专员 steward，管理员 admin。演示密码见 README。</p>
+          <p className="hint">电商专员 merchant，小区专员 steward，管理员 admin。账号说明见 README。</p>
         </form>
       </main>
     );
