@@ -12,7 +12,11 @@
     "document_name": "青禾市集平台交易规则",
     "doc_type": "平台规则",
     "path": "data/documents/qinghe/青禾市集平台交易规则.md",
-    "prompts": ["保证金要缴多少", "佣金按成交额收多少", "什么情况会整店下架"]
+    "prompts": [
+      "保证金要缴多少",
+      "佣金按成交额收多少",
+      "什么情况会整店下架"
+    ]
   },
   {
     "kb_id": "nanhu",
@@ -20,6 +24,44 @@
     "document_name": "商品经销合同",
     "doc_type": "经销合同",
     "path": "data/documents/nanhu/商品经销合同.md",
-    "prompts": ["供货价是多少", "有没有佣金", "能不能七日无理由退货"]
+    "prompts": [
+      "供货价是多少",
+      "有没有佣金",
+      "能不能七日无理由退货"
+    ]
+  },
+  {
+    "kb_id": "estate",
+    "kb_name": "示范小区",
+    "document_name": "商品房买卖合同",
+    "doc_type": "买卖合同",
+    "path": "data/documents/estate/商品房买卖合同.md",
+    "prompts": [
+      "办不出房产证怎么处理",
+      "保修期内谁维修"
+    ]
+  },
+  {
+    "kb_id": "estate",
+    "kb_name": "示范小区",
+    "document_name": "城镇房屋租赁合同",
+    "doc_type": "租赁合同",
+    "path": "data/documents/estate/城镇房屋租赁合同.md",
+    "prompts": [
+      "租金逾期可以怎么处理",
+      "押金什么时候退",
+      "物业费由谁承担"
+    ]
+  },
+  {
+    "kb_id": "estate",
+    "kb_name": "示范小区",
+    "document_name": "山东省物业服务合同",
+    "doc_type": "物业合同",
+    "path": "data/documents/estate/山东省物业服务合同.md",
+    "prompts": [
+      "物业费包含哪些",
+      "欠物业费会怎么处理"
+    ]
   }
 ]

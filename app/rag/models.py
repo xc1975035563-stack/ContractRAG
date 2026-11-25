@@ -1,6 +1,7 @@
+from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import String, Text
+from sqlalchemy import Boolean, DateTime, String, Text, func
 from sqlalchemy.dialects.postgresql import ARRAY, UUID as PG_UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -20,3 +21,17 @@ class ParentChunk(Base):
     doc_type: Mapped[str] = mapped_column(String(50))
     section_path: Mapped[list[str]] = mapped_column(ARRAY(Text))
     content: Mapped[str] = mapped_column(Text)
+
+
+class AuditLog(Base):
+    """查询、入库、切换知识库、查看原文的操作记录。"""
+
+    __tablename__ = "audit_logs"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    username: Mapped[str] = mapped_column(String(64))
+    action: Mapped[str] = mapped_column(String(32))
+    kb_id: Mapped[str] = mapped_column(String(64), default="")
+    success: Mapped[bool] = mapped_column(Boolean)
+    detail: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

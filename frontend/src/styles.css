@@ -137,6 +137,37 @@ h1 {
   white-space: pre-wrap;
 }
 
+.intent,
+.disclaimer,
+.closed {
+  margin: 8px 0 0;
+  color: #6d645b;
+  font-size: 13px;
+}
+
+.risks {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.risks li {
+  background: #f8efe2;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.ticket {
+  grid-column: 1 / -1;
+  border: 1px solid #e4dccf;
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: #fff;
+}
+
 .ref {
   border: 0;
   background: #f3e4da;
@@ -286,6 +317,76 @@ button:disabled {
 .error {
   color: #9d2c2c;
   grid-column: 1 / -1;
+}
+
+.who,
+.hint {
+  margin: 8px 0 0;
+  color: #665e56;
+  font-size: 12px;
+}
+
+.text-button {
+  margin-right: 8px;
+  border: 0;
+  background: transparent;
+  color: #5c5348;
+  padding: 0;
+  cursor: pointer;
+}
+
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f6f3ec;
+}
+
+.login form {
+  width: min(360px, calc(100% - 32px));
+  display: grid;
+  gap: 12px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e4dccf;
+}
+
+.login label {
+  display: grid;
+  gap: 6px;
+  color: #5c5348;
+  font-size: 13px;
+}
+
+.login input {
+  border: 1px solid #e4dccf;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.login button {
+  border: 0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #2a2825;
+  color: #fff;
+  cursor: pointer;
+}
+
+.audit {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.audit li {
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid #e4dccf;
+  font-size: 13px;
 }
 
 @media (max-width: 900px) {

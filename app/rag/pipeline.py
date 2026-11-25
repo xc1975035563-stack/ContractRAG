@@ -44,6 +44,12 @@ class RAGPipeline:
             content = section.page_content.strip()
             section_path = [str(value) for value in section.metadata.values() if value]
             if not content or not section_path:
+                logger.info(
+                    "空章节已跳过",
+                    kb_id=document.kb_id,
+                    document_name=document.document_name,
+                    section=" / ".join(section_path) or "无标题",
+                )
                 continue
             parent = ParentChunk(
                 id=uuid4(),

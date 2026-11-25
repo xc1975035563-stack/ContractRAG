@@ -1,0 +1,7 @@
+.venv
+.env
+.fastembed_cache
+frontend/node_modules
+frontend/dist
+**/__pycache__
+.git

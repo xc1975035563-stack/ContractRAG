@@ -1,0 +1,35 @@
+{
+  "cases": [
+    {"id": "Q01", "kind": "cite", "kb_id": "estate", "question": "租金逾期超过约定期限可以怎么处理", "section_contains": "第五条", "content_contains": ["逾期", "解除"]},
+    {"id": "Q02", "kind": "cite", "kb_id": "estate", "question": "租赁押金在合同终止时如何退还", "section_contains": "第六条", "content_contains": ["押金"]},
+    {"id": "Q03", "kind": "cite", "kb_id": "estate", "question": "租赁期间物业费由谁承担", "section_contains": "第七条", "content_contains": ["物业费"]},
+    {"id": "Q04", "kind": "cite", "kb_id": "estate", "question": "租赁房屋的维修义务怎么约定", "section_contains": "第十条", "content_contains": ["维修"]},
+    {"id": "Q05", "kind": "cite", "kb_id": "estate", "question": "商品房办不出房产证怎么处理", "section_contains": "第十七条", "content_contains": ["所有权转移登记"]},
+    {"id": "Q06", "kind": "cite", "kb_id": "estate", "question": "商品房保修期内谁负责维修", "section_contains": "第十五条", "content_contains": ["保修"]},
+    {"id": "Q07", "kind": "cite", "kb_id": "estate", "question": "前期物业服务费怎么计", "section_contains": "第十八条", "content_contains": ["物业服务费"]},
+    {"id": "Q08", "kind": "cite", "kb_id": "estate", "question": "物业公共服务费实行什么方式", "section_contains": "第十五条", "content_contains": ["物业公共服务费", "包干制"]},
+    {"id": "Q09", "kind": "cite", "kb_id": "estate", "question": "物业服务人应当公示哪些信息", "section_contains": "第三条", "content_contains": ["公示"]},
+    {"id": "Q10", "kind": "cite", "kb_id": "estate", "question": "业主逾期不交物业费如何处理", "section_contains": "第二十条", "content_contains": ["逾期", "催告"]},
+    {"id": "Q11", "kind": "cite", "kb_id": "qinghe", "question": "家居日用佣金按成交额收多少", "section_contains": "第一条", "content_contains": ["5%"]},
+    {"id": "Q12", "kind": "cite", "kb_id": "qinghe", "question": "卖假货会扣多少保证金", "section_contains": "第五条", "content_contains": ["20000"]},
+    {"id": "Q13", "kind": "cite", "kb_id": "qinghe", "question": "七日无理由退货怎么约定", "section_contains": "第三条", "content_contains": ["七日无理由"]},
+    {"id": "Q14", "kind": "cite", "kb_id": "nanhu", "question": "南湖米线礼盒供货价是多少", "section_contains": "第二条", "content_contains": ["128元"]},
+    {"id": "Q15", "kind": "cite", "kb_id": "nanhu", "question": "经销合同收不收保证金", "section_contains": "第四条", "content_contains": ["不收取保证金"]},
+    {"id": "Q16", "kind": "cite", "kb_id": "nanhu", "question": "非质量问题能不能退货", "section_contains": "第六条", "content_contains": ["非质量问题不得退货"]},
+    {"id": "Q17", "kind": "abstain", "kb_id": "estate", "question": "青禾市集技术服务费按成交额收多少", "content_contains": ["按订单实际成交额的5%计收"]},
+    {"id": "Q18", "kind": "abstain", "kb_id": "qinghe", "question": "买受人未能取得房屋所有权证书怎么处理", "content_contains": ["所有权转移登记"]},
+    {"id": "Q19", "kind": "abstain", "kb_id": "nanhu", "question": "租赁押金如何抵扣", "content_contains": ["向甲方支付押金"]},
+    {"id": "Q20", "kind": "abstain", "kb_id": "estate", "question": "新能源汽车电池质保几年", "content_contains": ["动力电池质保"]},
+    {"id": "Q21", "kind": "cross", "kb_id": "estate", "question": "会不会答到电商佣金", "content_contains": ["按订单实际成交额的5%计收"]},
+    {"id": "Q22", "kind": "cross", "kb_id": "qinghe", "question": "会不会答到房产证登记", "content_contains": ["房屋所有权转移登记"]},
+    {"id": "Q23", "kind": "cross", "kb_id": "nanhu", "question": "会不会答到租赁押金", "content_contains": ["向甲方支付押金"]},
+    {"id": "Q24", "kind": "citation", "question": "引用编号是否落在材料内", "answer": "押金应当在结清费用后退还 [1]。", "passage_count": 2},
+    {"id": "Q25", "kind": "citation", "question": "一句可以对应多条材料", "answer": "租金按约支付 [1]，押金另行约定 [2]。", "passage_count": 3}
+  ],
+  "failure_samples": [
+    {"id": "F01", "kind": "citation", "question": "编号超出材料", "answer": "见合同 [9]。", "passage_count": 2, "expect_reason": "引用编号不在材料中"},
+    {"id": "F02", "kind": "citation", "question": "有事实但没有引用", "answer": "押金应当退还。", "passage_count": 2, "expect_reason": "未引用"},
+    {"id": "F03", "kind": "cite", "kb_id": "qinghe", "question": "材料里不存在的章节", "section_contains": "第九十九条", "content_contains": ["火星殖民地租金"], "expect_reason": "错引用"},
+    {"id": "F04", "kind": "cross", "kb_id": "qinghe", "question": "把本库已有条款当成串库", "content_contains": ["5%"], "expect_reason": "跨库串扰"}
+  ]
+}

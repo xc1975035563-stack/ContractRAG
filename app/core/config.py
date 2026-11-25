@@ -18,6 +18,7 @@ class AppSettings(EnvSettings):
     name: str = Field(alias="APP_NAME", default="合同速查")
     host: str = Field(alias="APP_HOST", default="127.0.0.1")
     port: int = Field(alias="APP_PORT", default=8020)
+    auth_secret: str = Field(alias="AUTH_SECRET", default="contract-rag-demo")
 
 
 class DatabaseSettings(EnvSettings):

@@ -16,10 +16,13 @@ from scripts.prepare_documents import main as prepare_documents
 
 from app.core.config import APP_ROOT, settings
 from app.core.logging import configure_logging, get_logger
+from app.ops.audit import record_audit
 from sqlalchemy import select
 
 from app.infra.database import AsyncSessionFactory, ensure_database
+from app.rag.catalog import list_knowledge_bases
 from app.rag.documents import CorpusDocument
+from app.rag.policy import closed_documents
 from app.rag.models import ParentChunk
 from app.rag.pipeline import RAGPipeline
 from app.rag.repository import ParentChunkRepository
@@ -61,6 +64,14 @@ async def main() -> None:
     configure_logging(settings.logging_level)
     prepare_documents()
     documents = load_corpus()
+    for base in list_knowledge_bases():
+        for closed in closed_documents(base.kb_id):
+            logger.info(
+                "废止版本不入库",
+                kb_id=base.kb_id,
+                document=closed.document_name,
+                replaced_by=closed.replaced_by,
+            )
 
     preview = RAGPipeline()
     for document in documents:
@@ -81,7 +92,7 @@ async def main() -> None:
             f"{settings.milvus.host}:{settings.milvus.port} {'可连接' if milvus_up else '连不上'}，"
             "PostgreSQL "
             f"{settings.db.host}:{settings.db.port} {'可连接' if postgres_up else '连不上'}。"
-            "三份合同已整理好，服务恢复后重新运行 scripts/ingest.py 即可入库。"
+            "合同已整理好，服务恢复后重新运行 scripts/ingest.py 即可入库。"
         )
 
     logger.info("连接 Milvus", uri=settings.milvus.uri)
@@ -90,7 +101,12 @@ async def main() -> None:
     await drop_retired_knowledge_bases(store, {item.kb_id for item in documents})
     pipeline = RAGPipeline(store)
     for document in documents:
-        await pipeline.ingest(document)
+        try:
+            await pipeline.ingest(document)
+        except Exception as exc:
+            await record_audit("system", "ingest", document.kb_id, False, f"{document.document_name}: {exc}")
+            raise
+        await record_audit("system", "ingest", document.kb_id, True, document.document_name)
 
     question = "家居日用类目的技术服务费按成交额收多少"
     qinghe = store.similarity_search(question, k=3, expr='kb_id == "qinghe"')

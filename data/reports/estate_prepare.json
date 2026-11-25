@@ -1,0 +1,106 @@
+{
+  "written": [
+    "商品房买卖合同",
+    "城镇房屋租赁合同",
+    "山东省物业服务合同"
+  ],
+  "notes": [
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "正文开始前的站点说明已跳过，不入库"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第二章 商品房基本状况"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第三章 商品房价款"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第五章 商品房质量及保修责任"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第六章 房屋登记"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第七章 物业管理"
+    },
+    {
+      "source": "sales.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第八章 其他事项"
+    },
+    {
+      "source": "lease.txt",
+      "level": "skip",
+      "reason": "正文开始前的站点说明已跳过，不入库"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "正文开始前的站点说明已跳过，不入库"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第三章 物业的承接查验"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第四章 物业服务内容"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第五章 物业服务合同期限"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第六章 物业服务标准和服务费用"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第七章 双方的权利和义务"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第八章 违约责任"
+    },
+    {
+      "source": "property.txt",
+      "level": "skip",
+      "reason": "章节编号不连续，缺少第二章，已记录"
+    },
+    {
+      "source": "fixtures/empty_chapter.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：空章节样例"
+    },
+    {
+      "source": "fixtures/empty_chapter.txt",
+      "level": "skip",
+      "reason": "空章节已跳过：第一章 空章"
+    }
+  ],
+  "failures": [
+    {
+      "source": "fixtures/not_a_contract.txt",
+      "level": "fail",
+      "reason": "非必需文件。无法解析：没有章节标题（需要 Markdown 标题，或“第×章 / 第×条”）"
+    }
+  ]
+}

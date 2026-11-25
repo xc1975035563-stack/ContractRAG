@@ -1,4 +1,5 @@
 import re
+import time
 from dataclasses import dataclass
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -6,8 +7,12 @@ from langchain_milvus import Milvus
 from langchain_openai import ChatOpenAI
 
 from app.core.config import settings
+from app.core.logging import get_logger
+from app.ops.metrics import observe_model_failure, observe_retrieval
 from app.rag.catalog import find_knowledge_base
 from app.rag.retriever import Passage, load_passages, query_document
+
+logger = get_logger(__name__)
 
 SYSTEM_PROMPT = """你是文档问答助手，只根据给定材料用简体中文回答。
 必须遵守：
@@ -20,6 +25,14 @@ MATERIAL_LIMIT = 1200
 
 
 class ModelNotConfiguredError(RuntimeError):
+    pass
+
+
+class ModelCallError(RuntimeError):
+    pass
+
+
+class CitationMissingError(RuntimeError):
     pass
 
 
@@ -60,33 +73,57 @@ async def answer_question(store: Milvus, kb_id: str, question: str) -> Answer:
     knowledge_base = find_knowledge_base(kb_id)
     if knowledge_base is None:
         raise KeyError(kb_id)
+    started = time.perf_counter()
     parent_ids = query_document(store, kb_id, question)
     passages = await load_passages(kb_id, parent_ids)
+    elapsed_ms = (time.perf_counter() - started) * 1000
+    observe_retrieval(elapsed_ms, empty=not passages)
+    logger.info(
+        "检索完成",
+        kb_id=kb_id,
+        hits=len(passages),
+        elapsed_ms=round(elapsed_ms, 1),
+        empty=not passages,
+    )
     if not passages:
+        logger.warning("召回为空", kb_id=kb_id, question=question.strip()[:80])
         return Answer(
-            answer=f"在「{knowledge_base.kb_name}」中没有检索到相关内容。",
+            answer=f"在「{knowledge_base.kb_name}」中无相关约定。",
             citations=[],
         )
-    response = await _model().ainvoke(
-        [
-            SystemMessage(content=SYSTEM_PROMPT),
-            HumanMessage(
-                content=(
-                    f"文档集：{knowledge_base.kb_name}\n"
-                    f"问题：{question.strip()}\n\n"
-                    f"检索材料：\n{_materials(passages)}"
-                )
-            ),
-        ]
-    )
+    try:
+        response = await _model().ainvoke(
+            [
+                SystemMessage(content=SYSTEM_PROMPT),
+                HumanMessage(
+                    content=(
+                        f"文档集：{knowledge_base.kb_name}\n"
+                        f"问题：{question.strip()}\n\n"
+                        f"检索材料：\n{_materials(passages)}"
+                    )
+                ),
+            ]
+        )
+    except ModelNotConfiguredError:
+        raise
+    except Exception as exc:
+        observe_model_failure()
+        logger.exception("模型调用失败", kb_id=kb_id)
+        raise ModelCallError("对话模型调用失败") from exc
     answer = _message_text(response.content).strip()
-    return Answer(answer=answer, citations=_used_passages(answer, passages))
+    used = _used_passages(answer, passages)
+    if not used:
+        logger.warning("引用缺失", kb_id=kb_id)
+        raise CitationMissingError("回答未标注有效引用，已拒答")
+    return Answer(answer=answer, citations=used)
 
 
 def _used_passages(answer: str, passages: list[Passage]) -> list[Passage]:
     numbers = {int(item) for item in re.findall(r"\[(\d+)\]", answer)}
-    used = [passage for passage in passages if passage.number in numbers]
-    return used or passages
+    valid = {passage.number for passage in passages}
+    if numbers - valid:
+        logger.warning("引用编号不在材料中", kb_id=passages[0].document_name, numbers=sorted(numbers - valid))
+    return [passage for passage in passages if passage.number in numbers]
 
 
 def _message_text(content: object) -> str:

@@ -1,0 +1,23 @@
+[
+  {
+    "username": "admin",
+    "password": "admin123",
+    "role": "admin",
+    "display_name": "知识库管理员",
+    "kb_ids": []
+  },
+  {
+    "username": "merchant",
+    "password": "merchant123",
+    "role": "staff",
+    "display_name": "电商合规专员",
+    "kb_ids": ["qinghe", "nanhu"]
+  },
+  {
+    "username": "steward",
+    "password": "steward123",
+    "role": "staff",
+    "display_name": "小区事务专员",
+    "kb_ids": ["estate"]
+  }
+]
